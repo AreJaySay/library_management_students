@@ -46,105 +46,119 @@ class _LoginState extends State<Login> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextField(
-              controller: _email,
-              style: TextStyle(fontFamily: "OpenSans"),
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                hintText: 'Email',
-                prefixIcon: Icon(Icons.person,color: colors.umber,),
-                hintStyle: TextStyle(fontFamily: "OpenSans",color: Colors.grey),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(1000)
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(1000),
-                  borderSide: BorderSide(color: colors.umber.withOpacity(0.1)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(1000),
-                  borderSide: BorderSide(color: colors.umber.withOpacity(0.4)),
-                ),
-              ),
-              onChanged: (text) {
+            Image(
+              width: 250,
+              height: 250,
+              image: AssetImage("assets/logos/main_logo.png"),
+            ),
+           Column(
+             children: [
+               TextField(
+                 controller: _email,
+                 style: TextStyle(fontFamily: "OpenSans"),
+                 keyboardType: TextInputType.text,
+                 decoration: InputDecoration(
+                   hintText: 'Email',
+                   prefixIcon: Icon(Icons.person,color: colors.umber,),
+                   hintStyle: TextStyle(fontFamily: "OpenSans",color: Colors.grey),
+                   border: OutlineInputBorder(
+                       borderRadius: BorderRadius.circular(1000)
+                   ),
+                   enabledBorder: OutlineInputBorder(
+                     borderRadius: BorderRadius.circular(1000),
+                     borderSide: BorderSide(color: colors.umber.withOpacity(0.1)),
+                   ),
+                   focusedBorder: OutlineInputBorder(
+                     borderRadius: BorderRadius.circular(1000),
+                     borderSide: BorderSide(color: colors.umber.withOpacity(0.4)),
+                   ),
+                 ),
+                 onChanged: (text) {
 
-              },
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            TextField(
-              controller: _pass,
-              style: TextStyle(fontFamily: "OpenSans"),
-              keyboardType: TextInputType.text,
-              obscureText: !_isPassVisible,
-              decoration: InputDecoration(
-                hintText: 'Password',
-                prefixIcon: Icon(Icons.lock,color: colors.umber,),
-                hintStyle: TextStyle(fontFamily: "OpenSans",color: Colors.grey),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(1000)
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(1000),
-                  borderSide: BorderSide(color: colors.umber.withOpacity(0.1)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(1000),
-                  borderSide: BorderSide(color: colors.umber.withOpacity(0.4)),
-                ),
-                suffixIcon: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child: IconButton(
-                    icon: _isPassVisible ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
-                    onPressed: (){
-                      setState(() {
-                        _isPassVisible = !_isPassVisible;
-                      });
-                    },
-                  ),
-                )
-              ),
-              onChanged: (text) {
+                 },
+               ),
+               SizedBox(
+                 height: 15,
+               ),
+               TextField(
+                 controller: _pass,
+                 style: TextStyle(fontFamily: "OpenSans"),
+                 keyboardType: TextInputType.text,
+                 obscureText: !_isPassVisible,
+                 decoration: InputDecoration(
+                     hintText: 'Password',
+                     prefixIcon: Icon(Icons.lock,color: colors.umber,),
+                     hintStyle: TextStyle(fontFamily: "OpenSans",color: Colors.grey),
+                     border: OutlineInputBorder(
+                         borderRadius: BorderRadius.circular(1000)
+                     ),
+                     enabledBorder: OutlineInputBorder(
+                       borderRadius: BorderRadius.circular(1000),
+                       borderSide: BorderSide(color: colors.umber.withOpacity(0.1)),
+                     ),
+                     focusedBorder: OutlineInputBorder(
+                       borderRadius: BorderRadius.circular(1000),
+                       borderSide: BorderSide(color: colors.umber.withOpacity(0.4)),
+                     ),
+                     suffixIcon: Padding(
+                       padding: EdgeInsets.symmetric(horizontal: 5),
+                       child: IconButton(
+                         icon: _isPassVisible ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+                         onPressed: (){
+                           setState(() {
+                             _isPassVisible = !_isPassVisible;
+                           });
+                         },
+                       ),
+                     )
+                 ),
+                 onChanged: (text) {
 
-              },
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            materialbutton.materialButton(fontsize: 15,backColor: colors.umber,"LOGIN", ()async{
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              if(_email.text.isEmpty || _pass.text.isEmpty){
-                _snackbarMessage.snackbarMessage(context, message: "Email and password are required.", is_error: true);
-              }else{
-                _screenLoaders.functionLoader(context);
-                List _user = usersModel.value.where((s) => s["email"] == _email.text && s["password"] == _pass.text).toList();
-                usersModel.updateUser(data: _user.first);
-                Navigator.of(context).pop(null);
-                prefs.setString('email', _email.text);
-                prefs.setString('password', _pass.text.toString());
-                _routes.navigator_pushreplacement(context, Landing());
-              }
-            }),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text("Don't have an account?",style: TextStyle(color: Colors.black,fontFamily: "OpenSans"),),
-                InkWell(
-                  onTap: (){
-                    _routes.navigator_push(context, Register());
-                  },
-                  child: Text(" CREATE ACCOUNT",style: TextStyle(color: colors.umber,fontWeight: FontWeight.bold,fontFamily: "OpenSans"),),
-                )
-              ],
-            )
+                 },
+               ),
+               SizedBox(
+                 height: 50,
+               ),
+               materialbutton.materialButton(fontsize: 15,backColor: colors.umber,"LOGIN", ()async{
+                 SharedPreferences prefs = await SharedPreferences.getInstance();
+                 if(_email.text.isEmpty || _pass.text.isEmpty){
+                   _snackbarMessage.snackbarMessage(context, message: "Email and password are required.", is_error: true);
+                 }else{
+                   _screenLoaders.functionLoader(context);
+                   List _user = usersModel.value.where((s) => s["email"] == _email.text && s["password"] == _pass.text).toList();
+                   print("USER RETURN ${_user}");
+                   if(_user.isEmpty){
+                     Navigator.of(context).pop(null);
+                     _snackbarMessage.snackbarMessage(context, message: "Invalid credentials!" ,is_error: true);
+                   }else{
+                     usersModel.updateUser(data: _user.first);
+                     prefs.setString('email', _email.text);
+                     prefs.setString('password', _pass.text.toString());
+                     _routes.navigator_pushreplacement(context, Landing());
+                   }
+                 }
+               }),
+               SizedBox(
+                 height: 20,
+               ),
+               Row(
+                 mainAxisAlignment: MainAxisAlignment.center,
+                 crossAxisAlignment: CrossAxisAlignment.center,
+                 children: [
+                   Text("Don't have an account?",style: TextStyle(color: Colors.black,fontFamily: "OpenSans"),),
+                   InkWell(
+                     onTap: (){
+                       _routes.navigator_push(context, Register());
+                     },
+                     child: Text(" CREATE ACCOUNT",style: TextStyle(color: colors.umber,fontWeight: FontWeight.bold,fontFamily: "OpenSans"),),
+                   )
+                 ],
+               )
+             ],
+           ),
           ],
         ),
       ),

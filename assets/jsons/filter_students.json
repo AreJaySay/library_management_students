@@ -1,0 +1,64 @@
+[
+  {
+    "id": 1,
+    "department": "College of arts and sciences",
+    "selected_section": "",
+    "courses": [
+      "BS in Psychology",
+      "BS in Information Technology",
+      "BS in Information System",
+      "BS in Statistics"
+    ]
+  },
+  {
+    "id": 2,
+    "department": "College of engineering",
+    "selected_section": "",
+    "courses": [
+      "BS in Civil Engineering",
+      "BS in Computer Engineering",
+      "BS in Electrical Engineering",
+      "BS in Electronics Engineering"
+    ]
+  },
+  {
+    "id": 3,
+    "department": "College of education",
+    "selected_section": "",
+    "courses": [
+      "BS of Secondary Education",
+      "BS in Elementary Education",
+      "BS in Early Childhood Education",
+      "BS in Physical Education"
+    ]
+  },
+  {
+    "id": 4,
+    "department": "College of industrial technology",
+    "selected_section": "",
+    "courses": [
+      "Bachelor of Industrial Technology (BindTech)",
+      "BS in Architecture (BsArch)"
+    ]
+  },
+  {
+    "id": 5,
+    "department": "College of nursing and health sciences",
+    "selected_section": "",
+    "courses": [
+      "BS in Nursing",
+      "BS in Pharmacy",
+      "BS in Nutrition and Dietitics"
+    ]
+  },
+  {
+    "id": 5,
+    "department": "External campuses",
+    "selected_section": "",
+    "courses": [
+      "Paranas Campus",
+      "Mercedes Campus",
+      "Basey Campus"
+    ]
+  }
+]

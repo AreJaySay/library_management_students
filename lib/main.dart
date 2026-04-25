@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:students/bluetooth_checker.dart';
 import 'package:students/credentials/login.dart';
 import 'package:students/screens/landing.dart';
 import 'package:students/services/apis/users.dart';
@@ -74,16 +75,13 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: Colors.white,
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image(
-              width: 200,
-              height: 200,
-              image: AssetImage("assets/logos/main_logo.png"),
-            ),
-            SizedBox(
-              height: 20,
+              width: 120,
+              height: 120,
+              image: AssetImage("assets/logos/ssu_logo.png"),
             ),
             CircularProgressIndicator(
               color: colors.umber,

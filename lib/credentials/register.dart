@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:students/credentials/login.dart';
 import 'package:students/functions/loaders.dart';
@@ -26,23 +30,18 @@ class _RegisterState extends State<Register> {
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
   String _department = "";
+  String _course = "";
   String _year = "";
   String _section = "";
   bool _isPassVisible = false;
   bool _isConfirmPassVisible = false;
+  List? _filters;
 
-  Future _register()async{
-    DatabaseReference usersRef = database.ref('users');
-    await usersRef.push().set({
-      "name": _name.text,
-      "age": _age.text,
-      "email": _email.text,
-      "school_id": _schoolid.text,
-      "department": _department,
-      "year": _year,
-      "section": _section,
-      "password": _pass.text,
-    });
+  @override
+  void initState() {
+    // TODO: implement initState
+    _loadJson();
+    super.initState();
   }
 
   @override
@@ -126,7 +125,7 @@ class _RegisterState extends State<Register> {
           TextField(
             controller: _email,
             style: TextStyle(fontFamily: "OpenSans"),
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.text,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
               hintText: 'Email',
@@ -190,10 +189,9 @@ class _RegisterState extends State<Register> {
               style: TextStyle(fontFamily: "OpenSans",fontSize: 16,color: Colors.black),
               padding: EdgeInsets.symmetric(horizontal: 10),
               items: <String>[
-                'College of Arts and Science',
-                'College of Education',
-                'College of Nursing',
-                'College of Engineering'
+                for(int x = 0; x < _filters!.length; x++)...{
+                  "${_filters![x]["department"]}"
+                }
               ].map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
@@ -213,6 +211,51 @@ class _RegisterState extends State<Register> {
                 if (value != null) {
                   setState(() {
                     _department = value;
+                  });
+                }
+              },
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(width: 1.0, style: BorderStyle.solid, color: colors.umber.withOpacity(0.1)),
+                borderRadius: BorderRadius.all(Radius.circular(1000)),
+              ),
+            ),
+            child: DropdownButton<String>(
+              focusColor: Colors.white,
+              style: TextStyle(fontFamily: "OpenSans",fontSize: 16,color: Colors.black),
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              items: <String>[
+                if(_department.isNotEmpty)...{
+                  for(int x = 0; x < _filters!.where((s) => s["department"] == _department).toList().first["courses"].length; x++)...{
+                    "${_filters!.where((s) => s["department"] == _department).toList().first["courses"][x]}"
+                  }
+                }
+              ].map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value,style: TextStyle(fontFamily: "OpenSans",fontSize: 15),),
+                );
+              }).toList(),
+              hint: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Text(_course.isEmpty
+                    ? 'Course'
+                    : _course,style: TextStyle(fontFamily: "OpenSans",fontSize: 16,color: _course.isEmpty ? Colors.grey : Colors.black),),
+              ),
+              borderRadius: BorderRadius.circular(10),
+              underline: SizedBox(),
+              isExpanded: true,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _course = value;
                   });
                 }
               },
@@ -397,7 +440,7 @@ class _RegisterState extends State<Register> {
             height: 50,
           ),
           materialbutton.materialButton(fontsize: 15,backColor: colors.umber,"REGISTER", (){
-            if(_name.text.isEmpty || _age.text.isEmpty || _email.text.isEmpty || _schoolid.text.isEmpty || _department == "" || _year == "" || _section == ""){
+            if(_name.text.isEmpty || _age.text.isEmpty || _email.text.isEmpty || _schoolid.text.isEmpty || _department == "" || _course == "" || _year == "" || _section == "" || _pass.text.isEmpty || _confirmPass.text.isEmpty){
               _snackbarMessage.snackbarMessage(context, message: "All fields are required.", is_error: true);
             }else if(_pass.text != _confirmPass.text){
               _snackbarMessage.snackbarMessage(context, message: "Password and confirm password did not match.", is_error: true);
@@ -429,5 +472,32 @@ class _RegisterState extends State<Register> {
         ],
       ),
     );
+  }
+
+  Future<void> _loadJson() async {
+    final String response = await rootBundle.loadString('assets/jsons/filter_students.json');
+    final data = json.decode(response);
+    setState(() {
+      _filters = data;
+    });
+    print("FILTERS $data");
+  }
+
+  Future _register()async{
+    DatabaseReference usersRef = database.ref('users');
+    await usersRef.push().set({
+      "id": "${10000 + Random().nextInt(90000)}",
+      "name": _name.text,
+      "age": _age.text,
+      "email": _email.text,
+      "school_id": _schoolid.text,
+      "department": _department,
+      "course": _course,
+      "year": _year,
+      "section": _section,
+      "base64Image": "",
+      "password": _pass.text,
+      "created_at": "${DateTime.now()}"
+    });
   }
 }

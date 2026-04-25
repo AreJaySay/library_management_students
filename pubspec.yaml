@@ -38,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   rxdart: any
   intl: any
+  collection: ^1.19.1
   http: any
   shared_preferences: any
   page_transition: ^2.0.5
@@ -50,6 +51,10 @@ dependencies:
   dropdown_button2: ^2.3.9
   stylish_bottom_bar: ^1.1.1
   cached_network_image: ^3.2.0
+  permission_handler: ^12.0.1
+  grouped_list: ^6.0.0
+  file_picker: ^10.3.3
+  qr_code_scanner_plus: ^2.1.1
 
   # FIREBASE
   firebase_database: ^12.0.1
@@ -83,6 +88,8 @@ flutter:
   assets:
      - assets/icons/
      - assets/logos/
+     - assets/jsons/filter_students.json
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
