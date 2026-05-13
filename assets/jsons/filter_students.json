@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "department": "College of arts and sciences",
+    "department": "CAS",
     "selected_section": "",
     "courses": [
       "BS in Psychology",
@@ -12,7 +12,7 @@
   },
   {
     "id": 2,
-    "department": "College of engineering",
+    "department": "CoEng",
     "selected_section": "",
     "courses": [
       "BS in Civil Engineering",
@@ -23,7 +23,7 @@
   },
   {
     "id": 3,
-    "department": "College of education",
+    "department": "CoEd",
     "selected_section": "",
     "courses": [
       "BS of Secondary Education",
@@ -34,7 +34,7 @@
   },
   {
     "id": 4,
-    "department": "College of industrial technology",
+    "department": "CIT",
     "selected_section": "",
     "courses": [
       "Bachelor of Industrial Technology (BindTech)",
@@ -43,7 +43,7 @@
   },
   {
     "id": 5,
-    "department": "College of nursing and health sciences",
+    "department": "CoNHS",
     "selected_section": "",
     "courses": [
       "BS in Nursing",

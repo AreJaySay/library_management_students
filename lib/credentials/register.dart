@@ -23,16 +23,15 @@ class _RegisterState extends State<Register> {
   final Routes _routes = new Routes();
   final ScreenLoaders _screenLoaders = new ScreenLoaders();
   final SnackbarMessage _snackbarMessage = new SnackbarMessage();
-  final TextEditingController _name = TextEditingController();
-  final TextEditingController _age = TextEditingController();
+  final TextEditingController _fname = TextEditingController();
+  final TextEditingController _lname = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
   final TextEditingController _email = TextEditingController();
-  final TextEditingController _schoolid = TextEditingController();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
-  String _department = "";
-  String _course = "";
   String _year = "";
-  String _section = "";
+  String _course = "";
+  String _department = "";
   bool _isPassVisible = false;
   bool _isConfirmPassVisible = false;
   List? _filters;
@@ -47,9 +46,10 @@ class _RegisterState extends State<Register> {
   @override
   void dispose() {
     // TODO: implement dispose
-    _name.dispose();
-    _age.dispose();
-    _schoolid.dispose();
+    _fname.dispose();
+    _lname.dispose();
+    _phone.dispose();
+    _pass.dispose();
     super.dispose();
   }
 
@@ -69,12 +69,12 @@ class _RegisterState extends State<Register> {
             height: 50,
           ),
           TextField(
-            controller: _name,
+            controller: _fname  ,
             style: TextStyle(fontFamily: "OpenSans"),
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
-              hintText: 'Name',
+              hintText: 'Firstname',
               hintStyle: TextStyle(fontFamily: "OpenSans",color: Colors.grey),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(1000)
@@ -96,12 +96,41 @@ class _RegisterState extends State<Register> {
             height: 10,
           ),
           TextField(
-            controller: _age,
+            controller: _lname  ,
             style: TextStyle(fontFamily: "OpenSans"),
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.text,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
-              hintText: 'Age',
+              hintText: 'Lastname',
+              hintStyle: TextStyle(fontFamily: "OpenSans",color: Colors.grey),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(1000)
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(1000),
+                borderSide: BorderSide(color: colors.umber.withOpacity(0.1)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(1000),
+                borderSide: BorderSide(color: colors.umber.withOpacity(0.4)),
+              ),
+            ),
+            onChanged: (text) {
+
+            },
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            controller: _phone  ,
+            style: TextStyle(fontFamily: "OpenSans"),
+            keyboardType: TextInputType.number,
+            maxLength: 11,
+            decoration: InputDecoration(
+              counterText: "",
+              contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+              hintText: 'Phone',
               hintStyle: TextStyle(fontFamily: "OpenSans",color: Colors.grey),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(1000)
@@ -149,29 +178,46 @@ class _RegisterState extends State<Register> {
           SizedBox(
             height: 10,
           ),
-          TextField(
-            controller: _schoolid,
-            style: TextStyle(fontFamily: "OpenSans"),
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
-              hintText: 'School ID',
-              hintStyle: TextStyle(fontFamily: "OpenSans",color: Colors.grey),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(1000)
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(1000),
-                borderSide: BorderSide(color: colors.umber.withOpacity(0.1)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(1000),
-                borderSide: BorderSide(color: colors.umber.withOpacity(0.4)),
+          Container(
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(width: 1.0, style: BorderStyle.solid, color: colors.umber.withOpacity(0.1)),
+                borderRadius: BorderRadius.all(Radius.circular(1000)),
               ),
             ),
-            onChanged: (text) {
-
-            },
+            child: DropdownButton<String>(
+              focusColor: Colors.white,
+              style: TextStyle(fontFamily: "OpenSans",fontSize: 16,color: Colors.black),
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              items: <String>[
+                '1st year',
+                '2nd year',
+                '3rd year',
+                '4th year'
+              ].map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value,style: TextStyle(fontFamily: "OpenSans",fontSize: 15),),
+                );
+              }).toList(),
+              hint: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Text(_year.isEmpty
+                    ? 'Year'
+                    : _year,style: TextStyle(fontFamily: "OpenSans",fontSize: 16,color: _department.isEmpty ? Colors.grey : Colors.black),),
+              ),
+              borderRadius: BorderRadius.circular(10),
+              underline: SizedBox(),
+              isExpanded: true,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _year = value;
+                  });
+                }
+              },
+            ),
           ),
           SizedBox(
             height: 10,
@@ -264,103 +310,6 @@ class _RegisterState extends State<Register> {
           SizedBox(
             height: 10,
           ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 1.0, style: BorderStyle.solid, color: colors.umber.withOpacity(0.1)),
-                      borderRadius: BorderRadius.all(Radius.circular(1000)),
-                    ),
-                  ),
-                  child: DropdownButton<String>(
-                    focusColor: Colors.white,
-                    style: TextStyle(fontFamily: "OpenSans",fontSize: 16,color: Colors.black),
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    items: <String>[
-                      '1st year',
-                      '2nd year',
-                      '3rd year',
-                      '4th year'
-                    ].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value,style: TextStyle(fontFamily: "OpenSans",fontSize: 15),),
-                      );
-                    }).toList(),
-                    hint: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(_year.isEmpty
-                          ? 'Year'
-                          : _year,style: TextStyle(fontFamily: "OpenSans",fontSize: 16,color: _department.isEmpty ? Colors.grey : Colors.black),),
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                    underline: SizedBox(),
-                    isExpanded: true,
-                    onChanged: (value) {
-                      if (value != null) {
-                        setState(() {
-                          _year = value;
-                        });
-                      }
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: Container(
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 1.0, style: BorderStyle.solid, color: colors.umber.withOpacity(0.1)),
-                      borderRadius: BorderRadius.all(Radius.circular(1000)),
-                    ),
-                  ),
-                  child: DropdownButton<String>(
-                    focusColor: Colors.white,
-                    style: TextStyle(fontFamily: "OpenSans",fontSize: 16,color: Colors.black),
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    items: <String>[
-                      'A',
-                      'B',
-                      'C',
-                      'D',
-                      'E',
-                    ].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value,style: TextStyle(fontFamily: "OpenSans",fontSize: 15),),
-                      );
-                    }).toList(),
-                    hint: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(_section.isEmpty
-                          ? 'Section'
-                          : _section,style: TextStyle(fontFamily: "OpenSans",fontSize: 16,color: _department.isEmpty ? Colors.grey : Colors.black),),
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                    underline: SizedBox(),
-                    isExpanded: true,
-                    onChanged: (value) {
-                      if (value != null) {
-                        setState(() {
-                          _section = value;
-                        });
-                      }
-                    },
-                  ),
-                ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
           TextField(
             controller: _pass,
             style: TextStyle(fontFamily: "OpenSans"),
@@ -439,8 +388,8 @@ class _RegisterState extends State<Register> {
           SizedBox(
             height: 50,
           ),
-          materialbutton.materialButton(fontsize: 15,backColor: colors.umber,"REGISTER", (){
-            if(_name.text.isEmpty || _age.text.isEmpty || _email.text.isEmpty || _schoolid.text.isEmpty || _department == "" || _course == "" || _year == "" || _section == "" || _pass.text.isEmpty || _confirmPass.text.isEmpty){
+          materialbutton.materialButton(fontsize: 15,backColor: _fname.text.isEmpty || _lname.text.isEmpty || _phone.text.isEmpty || _email.text.isEmpty || _year == "" || _department == "" || _course == "" || _pass.text.isEmpty || _confirmPass.text.isEmpty ? Colors.grey : colors.umber,"REGISTER", (){
+            if(_fname.text.isEmpty || _lname.text.isEmpty || _phone.text.isEmpty || _email.text.isEmpty || _year == "" || _department == "" || _course == "" || _pass.text.isEmpty || _confirmPass.text.isEmpty){
               _snackbarMessage.snackbarMessage(context, message: "All fields are required.", is_error: true);
             }else if(_pass.text != _confirmPass.text){
               _snackbarMessage.snackbarMessage(context, message: "Password and confirm password did not match.", is_error: true);
@@ -487,17 +436,17 @@ class _RegisterState extends State<Register> {
     DatabaseReference usersRef = database.ref('users');
     await usersRef.push().set({
       "id": "${10000 + Random().nextInt(90000)}",
-      "name": _name.text,
-      "age": _age.text,
+      "firstname": _fname.text,
+      "lastname": _lname.text,
+      "phone": _phone.text,
       "email": _email.text,
-      "school_id": _schoolid.text,
+      "year": _year,
       "department": _department,
       "course": _course,
-      "year": _year,
-      "section": _section,
       "base64Image": "",
       "password": _pass.text,
       "created_at": "${DateTime.now()}"
     });
   }
 }
+
